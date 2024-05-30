@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Run the BehavIoT pipeline scripts for idle traffic:
-# Decoding
+# Antoine Tacq
+# Run the BehavIoT pipeline scripts for events traffic:
 
 # Constants
 NPROCS=$(nproc) # Number of processors
