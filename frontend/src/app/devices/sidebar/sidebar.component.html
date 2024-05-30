@@ -1,0 +1,6 @@
+
+<div class="sidenav">
+  <b>Your Devices :</b>
+  <p *ngIf="names.length==0">No devices yet</p>
+  <a routerLink="/{{device}}" *ngFor="let device of names">{{ device }}</a>
+</div>

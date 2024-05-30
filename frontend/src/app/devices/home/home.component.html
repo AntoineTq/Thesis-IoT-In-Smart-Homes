@@ -1,0 +1,34 @@
+<div>
+  <h1>Home</h1>
+  <p>
+    Website for Thesis at UCLouvain that consists of analysing the network traffic of smart home IoT devices
+    to try to predict the energy consumption of the connected IoT devices
+  </p>
+  <h4>1. Setup</h4>
+  <p>
+    First, go to "Setup" and follow the instructions. This consists of searching for new devices on
+    one interface of your network. Then you give them unique names so that you can recognise them.
+    Finally in the setup phase the system will capture the network traffic of your devices while they are idle.
+    (for 6 hours). You can go back to the setup to add new devices when you want.
+  </p>
+
+  <h4>2. Usage</h4>
+    <p>
+      Once the setup is done the system will be operational. devices should be displayed here on the left,
+      and you can access them to see their events and consumption. You will be asked to label events to help
+      the system to learn to recognise events (such as <i>on</i> or <i>off</i>).
+    </p>
+
+  <h4>3. Energy consumption</h4>
+    <p>
+      Currently, you need to provide a csv file : <i>total_consumption.csv</i>, that corresponds to the <b>total energy consumption
+      of the smart home</b> to the backend/instance folder.
+      The .csv file should contain 2 columns: the first one, named date, is the timestamps (unix epoch time)
+      and the second one is the corresponding power consumption in Watts.
+      The application will then build consumption profiles for each device.
+
+    </p>
+
+  <p *ngIf="capture_status">{{this.capture_status}}</p>
+</div>
+

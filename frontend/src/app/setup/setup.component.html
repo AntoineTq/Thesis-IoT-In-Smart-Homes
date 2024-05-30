@@ -1,0 +1,101 @@
+<div class="component">
+  <h2 style="color: red" *ngIf="error">Error, something went wrong in the setup</h2>
+  <div *ngIf="!deviceRegistrationComplete">
+    <!--- div that asks the user to start setup--->
+    <div>
+      <h2>Identification of devices</h2>
+      <div>
+        <p>
+          To use this app we first need to identify devices on your network.
+          The system will look at known ip addresses and ask you to provide a name for each of them.
+          Press the button start to begin.
+        </p>
+      </div>
+
+      <button *ngIf="!devicesFound" style="width: 100px; height: 30px" (click)="startSetup()">Start</button>
+      <p *ngIf="queryingDevices">Identifying available devices...</p>
+    </div>
+
+    <!--- div that displays a table with the devices given by backend-->
+    <div *ngIf="devicesFound">
+      <p>Found {{devices.length}} devices on your network :</p>
+      <table *ngIf="!interfaceSelected">
+        <tr>
+          <th>Device Name (can be unknown) </th>
+          <th> Vendor Name </th>
+          <th> IP Address </th>
+          <th style="padding-left: 20px"> Mac Address </th>
+          <th> Network Interface </th>
+        </tr>
+        <tr *ngFor="let device of devices">
+          <td>{{device.hostname}}</td>
+          <td style="text-align: center">{{device.vendor}}</td>
+          <td style="text-align: center">{{device.ip}}</td>
+          <td style="text-align: center; padding-left: 20px">{{device.mac}}</td>
+          <td style="text-align: right">{{device.interface}}</td>
+        </tr>
+      </table>
+      <p *ngIf="!interfaceSelected"> first insert the network interface you want to use (all devices from other interfaces will be removed)</p>
+      <form (submit)="submitInterface()">
+        <input type="text" name="interface" [(ngModel)]="interface" placeholder="interface" *ngIf="!interfaceSelected">
+        <button style="width: 100px; height: 30px" type="submit" *ngIf="!interfaceSelected">Submit</button>
+        <h3 *ngIf="interfaceSelected">Now enter new names for each device (Note: each blank field will result in the device being ignored)</h3>
+      </form>
+    </div>
+
+    <!--- div that ask the user to enter names for devices--->
+    <div *ngIf="interfaceSelected">
+      <form (submit)="submitDeviceNames()">
+        <table>
+          <tr>
+            <th>Device Name (can be unknown)</th>
+            <th> Vendor Name </th>
+            <th> IP Address </th>
+            <th> Mac Address </th>
+            <th> Network Interface </th>
+            <th> New Name </th>
+          </tr>
+          <tr *ngFor="let device of devices">
+            <td>{{device.hostname}}</td>
+            <td style="text-align: center">{{device.vendor}}</td>
+            <td style="text-align: center">{{device.ip}}</td>
+            <td style="text-align: center">{{device.mac}}</td>
+            <td style="text-align: right">{{device.interface}}</td>
+            <td><input type="text" name="name" [(ngModel)]="device.device_name" placeholder="name" required></td>
+          </tr>
+        </table>
+
+        <button style="width: 100px; height: 30px" type="submit" *ngIf="!devicesRegistered">Submit</button>
+      </form>
+      <p *ngIf="devicesRegistered">Devices have been registered successfully</p>
+    </div>
+
+  </div>
+
+  <div *ngIf="deviceRegistrationComplete">
+    <h2>You successfully registered your devices.</h2>
+  </div>
+
+  <div *ngIf="captureComplete">
+    <h2>Capture of idle traffic is also done, nothing else to do here.</h2>
+  </div>
+
+  <div *ngIf="deviceRegistrationComplete && !captureIdleDone && !captureComplete">
+    <h2>Now that all devices are registered, you can start capturing idle traffic from your network (i.e. when you don't interract with all your devices)</h2>
+    <div >
+      <p> the following devices require a capture:</p>
+      <p *ngFor="let device of dev_names">{{device}}</p>
+    </div>
+    <p>press this button to start capturing. Note that this will take 6hours</p>
+    <button style="width: 100px; height: 30px" class="button button1" (click)="clickIdle()">Start capture</button>
+     <p *ngIf="buttonClicked">You started the capture, this will take 6 hours</p>
+    <p *ngIf="response">{{response.status}}</p>
+  </div>
+  <div *ngIf="captureIdleDone">
+    <p *ngIf="response">{{response.status}}</p>
+  </div>
+</div>
+
+
+
+

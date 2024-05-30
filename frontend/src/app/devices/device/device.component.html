@@ -1,0 +1,58 @@
+<div class="page">
+  <div class="component">
+    <h2>
+      {{urlDevice}}
+    </h2>
+
+    <div class="newEvents" *ngIf="device.events">
+      <h3>Events</h3>
+      <p *ngIf="events.length==0">No new events detected at the moment for this device</p>
+      <div *ngIf="events.length>0">
+        <p>New events detected! Here is the times where possible new user events were detected. For each of them
+          please provide a name to improve our model. If an event is unknown you can simply leave it blank :</p>
+        <form (submit)="submitEventNames()">
+        <table>
+          <tr>
+            <th>Event date</th>
+            <th class="col-2">Prediction</th>
+            <th class="col-2">New Name</th>
+          </tr>
+          <tr *ngFor="let event of events">
+            <td>{{event.timestamp | date: 'MMMM dd, YYYY HH:mm:ss': 'gmt+2' }}</td>
+            <td class="col-2">{{event.prediction}}</td>
+            <td class="col-2"><input type="text" name="name" [(ngModel)]="event.event_name" placeholder="Event name"></td>
+          </tr>
+        </table>
+
+        <button style="width: 100px; height: 30px" type="submit" >Submit</button>
+      </form>
+      <p *ngIf="eventsRegistered">Devices have been registered successfully</p>
+
+
+
+        <!----
+        <form (submit)="submitDeviceNames()">
+            <input type="text" name="name" [(ngModel)]="device.device_name" placeholder="name" required>
+
+        </table>
+
+        <button style="width: 100px; height: 30px" type="submit" *ngIf="!devicesRegistered">Submit</button>
+      </form> --->
+      </div>
+    </div>
+
+    <div class="graph">
+      <h3>Consumption</h3>
+      <div class="filter">
+        <input type="date" id="startdate" [(ngModel)]="FilterDate" (ngModelChange)="filterData()">
+        <button (click)="resetGraph()">reset</button>
+      </div>
+      <div class="chart-container">
+        <canvas  id="MyChart" >{{ chart }}</canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

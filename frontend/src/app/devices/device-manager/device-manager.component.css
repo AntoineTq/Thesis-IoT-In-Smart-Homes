@@ -1,0 +1,9 @@
+.component{
+  margin-top: 15px;
+  margin-right: 25px;
+  height: 100%;
+}
+.page{
+  display: flex;
+  height: 100%;
+}
